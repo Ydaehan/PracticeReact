@@ -1,0 +1,67 @@
+body {
+  font-family: sans-serif;
+}
+
+input {
+  border-radius: 16px;
+  border: none;
+  padding: 6px 16px; /* 상하 좌우 폭을 정할 수 있음 */
+  outline: none;  /* 마우스를 인풋창에 올렸을때 테두리 강조 끄기 */
+}
+
+button {
+  border-radius: 16px;
+  border: none;
+  padding: 4px 16px;
+}
+
+/* 마우스 호버 시 옵션 */
+button:hover {
+  background-color: #ff7fff;
+  color: #fff;
+  cursor: pointer;  
+}
+
+li {
+  margin-right: 8px;
+}
+
+.input-area {
+  background-color: #c1ffff;
+  width: 400px;
+  height: 30px;
+  padding: 8px;
+  margin: 8px;
+  border-radius: 8px; /* 모서리를 둥글게 해줌 */
+}
+
+.incomplete-area {
+  background-color: #c6ffe2;
+  width: 400px;
+  min-height: 200px; /* 최소 픽셀 지정 */
+  padding: 8px;
+  margin: 8px;
+  border-radius: 8px; /* 모서리를 둥글게 해줌 */
+}
+
+.complete-area {
+  background-color: #ffffe0;
+  width: 400px;
+  min-height: 200px; /* 최소 픽셀 지정 */
+  padding: 8px;
+  margin: 8px;
+  border-radius: 8px; /* 모서리를 둥글게 해줌 */
+}
+
+.title {
+  text-align: center;
+  margin-top: 0;
+  font-weight: bold;
+  color: #666;
+}
+
+.list-row {
+  display: flex;
+  align-items: center;
+  padding-bottom: 4px;
+}
