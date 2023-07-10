@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const ColorfulMessage = (props) => {
+const ColorfulMessage = (props) => {
   const { color, children } = props;
   const contentStyle = {
     color, // 넘겨주는 변수 명과 프로퍼티 명이 같다면 생략이 가능하다
@@ -10,4 +10,4 @@ export const ColorfulMessage = (props) => {
 };
 
 // 다른 곳에서도 사용 할 수있게 해줌
-// export default ColorfulMessage;
+export default ColorfulMessage;

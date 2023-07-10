@@ -1,43 +1,83 @@
-import React, { useEffect,useState } from 'react'; // 분할 대입으로 react에서 useState를 꺼냄
-// import ColorfulMessage from './components/ColorfulMessage';
-import { ColorfulMessage } from './components/ColorfulMessage';
+import React, { useState }from "react";
+import "./styles.css";
 
-const App = () => {
-  console.log("最初")
-  const [num, setNum] = useState(0); // 배열의 분할 대입으로 useState에서 사용할 변수를 설정함 
-  // [`state로서 사용할 변수명`, `앞의 state를 변경하기 위한 함수`]
-  const [faceShowFlag, setFaceShowFlag] = useState(false);
+export const App = () => {
+  const [todoText, setTodoText] = useState('');
+  const [incompleteTodos, setIncompleteTodos] = useState([]);
+  const [completeTodos, setCompleteTodos] =useState([])
 
-  const onClickCountUp = () => {
-    setNum(num + 1);
+  const onChangeTodoText = (event) => setTodoText(event.target.value); 
+
+  // 추가 버튼
+  const onClickAdd = () => {
+    if (todoText === "") return;
+    /* 배열에 text를 설정해주는 것만으로 state가 변경되어 렌더링됨*/
+    const newTodos = [...incompleteTodos, todoText];
+    setIncompleteTodos(newTodos);
+    setTodoText("");
   };
-  const onClickSwitchShowFlag = () => {
-    setFaceShowFlag(!faceShowFlag);
-  }
-  
-  useEffect(() => {
-    if (num > 0) {
-      if(num % 3 === 0) {
-        faceShowFlag || setFaceShowFlag(true);
-      } else {
-        faceShowFlag && setFaceShowFlag(false);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[num]);
+
+  // 삭제 버튼
+  const onClickDelete = (index) => {
+    const newTodos = [...incompleteTodos];
+    newTodos.splice(index,1);
+    setIncompleteTodos(newTodos);
+  };
+
+  // 완료 버튼
+  const onClickComplete = (index) => {
+    const newIncompleteTodos = [...incompleteTodos];
+    newIncompleteTodos.splice(index,1);
+    
+    const newCompleteTodos = [...completeTodos, incompleteTodos[index]];
+    setIncompleteTodos(newIncompleteTodos);
+    setCompleteTodos(newCompleteTodos);
+  };
+
+  // 돌리기 버튼
+  const onClickBack = (index) => {
+    const newCompleteTodos = [...completeTodos];
+    newCompleteTodos.splice(index,1);
+    
+    const newIncompleteTodos = [...incompleteTodos, completeTodos[index]];
+    setIncompleteTodos(newIncompleteTodos);
+    setCompleteTodos(newCompleteTodos);
+  };
 
   return (
     <>
-      <h1 style={{ color: 'red' }}>こんにちは！</h1>
-      <ColorfulMessage color="blue">お元気ですか？</ColorfulMessage>      
-      <ColorfulMessage color="pink">元気です!</ColorfulMessage>      
-      <button onClick={onClickCountUp}>カウントアップ!</button>
-      <br/>
-      <button onClick={onClickSwitchShowFlag}>on/off</button>
-      <p>{num}</p>
-      {faceShowFlag && <p>＼(^o^)／</p>} {/* 왼쪽이 true -> 오른쪽을 반환 */}
+      <div className="input-area">
+        <input placeholder="TODO입력" value={todoText} onChange={onChangeTodoText} />
+        <button onClick={onClickAdd}>추가</button>
+      </div>
+      <div className="incomplete-area">
+        <p className="title">미완료TODO</p>
+        <ul>
+          {incompleteTodos.map((todo, index) => {
+            return (
+              <div key={todo} className="list-row">
+                <li>{todo}</li>
+                <button onClick={() => onClickComplete(index)}>완료</button>
+                <button onClick={() => onClickDelete(index)}>삭제</button>
+              </div>
+            );
+          })}
+        </ul>
+      </div>
+      <div className="complete-area">
+        <p className="title">완료TODO</p>
+          <ul>
+            {completeTodos.map((todo, index) => {
+              return (
+                <div key={todo} className="list-row">
+                  <li>{todo}</li>
+                  <button onClick={() => onClickBack(index)}>되돌리기</button>
+                </div>
+              )
+            })}
+            
+          </ul>
+      </div>
     </>
-  );
-};
-
-export default App;
+  )
+}
