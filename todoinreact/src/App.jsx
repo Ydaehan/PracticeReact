@@ -1,5 +1,8 @@
 import React, { useState }from "react";
 import "./styles.css";
+import { InputTodo } from "./components/InputTodo";
+import { IncompleteTodos } from "./components/IncompleteTodos";
+import { CompleteTodos } from "./components/CompleteTodos";
 
 export const App = () => {
   const [todoText, setTodoText] = useState('');
@@ -46,38 +49,10 @@ export const App = () => {
 
   return (
     <>
-      <div className="input-area">
-        <input placeholder="TODO입력" value={todoText} onChange={onChangeTodoText} />
-        <button onClick={onClickAdd}>추가</button>
-      </div>
-      <div className="incomplete-area">
-        <p className="title">미완료TODO</p>
-        <ul>
-          {incompleteTodos.map((todo, index) => {
-            return (
-              <div key={todo} className="list-row">
-                <li>{todo}</li>
-                <button onClick={() => onClickComplete(index)}>완료</button>
-                <button onClick={() => onClickDelete(index)}>삭제</button>
-              </div>
-            );
-          })}
-        </ul>
-      </div>
-      <div className="complete-area">
-        <p className="title">완료TODO</p>
-          <ul>
-            {completeTodos.map((todo, index) => {
-              return (
-                <div key={todo} className="list-row">
-                  <li>{todo}</li>
-                  <button onClick={() => onClickBack(index)}>되돌리기</button>
-                </div>
-              )
-            })}
-            
-          </ul>
-      </div>
+      <InputTodo todoText={ todoText } onChange={ onChangeTodoText } onClick={ onClickAdd } disabled={incompleteTodos.length >= 5} />
+      { incompleteTodos.length >= 5 && <p style={{ color:'red' }}>등록 할 수 있는 todo는 5개까지입니다. 먼저 삭제 해 주세요</p>}
+      <IncompleteTodos todos={ incompleteTodos } onClickComplete={ onClickComplete } onClickDelete={ onClickDelete } />
+      <CompleteTodos todos={ completeTodos } onClickBack={ onClickBack }/>
     </>
   )
 }
